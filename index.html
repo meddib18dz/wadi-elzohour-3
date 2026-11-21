@@ -159,4 +159,102 @@
                 <img src="03.jpg" alt="زوايا وادي الزهور" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
                 <div class="card-body">
                     <p class="card-title">زوايا وادي الزهور</p>
-                    <a href="03.jpg" download="wadi-el
+                    <a href="03.jpg" download="wadi-elzohour-03.jpg" class="btn">تحميل الصورة ⬇️</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="04.jpg" alt="لقطة خلابة" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="card-body">
+                    <p class="card-title">لقطة خلابة</p>
+                    <a href="04.jpg" download="wadi-elzohour-04.jpg" class="btn">تحميل الصورة ⬇️</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="05.JPG" alt="وادي الزهور الساحر" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="card-body">
+                    <p class="card-title">وادي الزهور الساحر</p>
+                    <a href="05.JPG" download="wadi-elzohour-05.jpg" class="btn">تحميل الصورة ⬇️</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- عارض الصور المكبر -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" src="" alt="معاينة الصورة">
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; 2026 - معرض صور وادي الزهور
+        <br><br>
+        <a href="admin.html" style="color: #888; text-decoration: none; font-size: 0.85rem;">دخول المشرف 🔐</a>
+    </footer>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6FIbXjA_lJlBiCydJEGm0BOKXPyd01E",
+            authDomain: "wadi-elzohour-app.firebaseapp.com",
+            projectId: "wadi-elzohour-app",
+            storageBucket: "wadi-elzohour-app.firebasestorage.app",
+            messagingSenderId: "397499400196",
+            appId: "1:397499400196:web:e51893def3e84eecf87551"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const galleryDiv = document.getElementById('gallery');
+        const statusBar = document.getElementById('statusBar');
+
+        async function loadImages() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "site_images"));
+                const imagesList = [];
+
+                querySnapshot.forEach((doc) => {
+                    imagesList.push({ id: doc.id, ...doc.data() });
+                });
+
+                imagesList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                imagesList.reverse().forEach((data) => {
+                    const title = data.title || "لقطة من وادي الزهور ✨";
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${data.url}" alt="${title}" onclick="openLightbox(this.src)">
+                        <div class="card-body">
+                            <p class="card-title">${title}</p>
+                            <a href="${data.url}" download="${title}.jpg" class="btn">تحميل الصورة ⬇️</a>
+                        </div>
+                    `;
+                    galleryDiv.prepend(card);
+                });
+
+                statusBar.style.display = 'none';
+            } catch (err) {
+                console.error("خطأ في جلب الصور:", err);
+                statusBar.textContent = "تعذر تحميل الصور السحابية، يتم عرض الصور الأساسية.";
+            }
+        }
+
+        loadImages();
+    </script>
+</body>
+</html>
