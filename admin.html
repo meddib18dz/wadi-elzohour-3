@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - وادي الزهور</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f4f2; margin: 0; padding: 20px; color: #2c3e50; }
+        .box { max-width: 500px; background: white; padding: 25px; margin: 20px auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+        h2 { color: #1e8449; margin-top: 0; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; font-size: 16px; border-radius: 8px; box-sizing: border-box; }
+        input { border: 1px solid #ccc; }
+        button { background: #1e8449; color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button:hover { background: #145a32; }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        .img-list { margin-top: 25px; text-align: right; }
+        .img-item { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #eee; }
+        .img-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; margin-left: 12px; }
+        .img-info { flex-grow: 1; font-size: 14px; font-weight: bold; }
+        .del-btn { width: auto; background: #e74c3c; padding: 8px 14px; font-size: 14px; margin: 0; }
+        .del-btn:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <!-- قسم تسجيل الدخول -->
+    <div class="box" id="loginBox">
+        <h2>دخول المشرف 🔐</h2>
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button id="loginBtn">تسجيل الدخول</button>
+    </div>
+
+    <!-- لوحة التحكم (تظهر بعد الدخول) -->
+    <div class="box" id="adminBox" style="display: none;">
+        <h2>إضافة صورة جديدة 🖼️</h2>
+        <input type="text" id="imgTitle" placeholder="اكتب وصفاً أو اسم المكان (اختياري)">
+        <input type="file" id="imageFile" accept="image/*">
+        <button id="uploadBtn">ضغط ورفع الصورة 🚀</button>
+        <p id="statusMsg" style="color: #1e8449
